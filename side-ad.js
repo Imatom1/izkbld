@@ -1,25 +1,23 @@
 // ═══════════════════════════════════════════════════
 //  SIDE AD CONFIG
-//  Add your ads to the array below.
-//  Each ad needs:
-//    portrait  — tall image for the desktop side panel (3:10 ratio)
-//    landscape — wide image for the mobile bottom bar (10:3 ratio)
-//    link      — URL that opens when the ad is clicked
 //
-//  A random ad is picked each page load.
-//  When the screen crosses the breakpoint the image
-//  automatically swaps to the correct format.
+//  HOW TO SET UP YOUR GOOGLE SHEET:
+//  1. Create a sheet with these 3 column headers in row 1:
+//       portrait  |  landscape  |  link
+//  2. Add one ad per row:
+//       portrait  = tall image URL  (3:10, for desktop side panel)
+//       landscape = wide image URL  (10:3, for mobile bottom bar)
+//       link      = website URL to open when ad is clicked
+//  3. File → Share → Publish to web → Sheet1 → CSV → Publish
+//  4. Paste the published CSV URL below as sheetUrl
+//
+//  To add/remove/change ads: just edit the sheet. No code changes needed.
 // ═══════════════════════════════════════════════════
 var SIDE_AD = {
-  ads: [
-    // {
-    //   portrait:  'https://example.com/ad-tall.jpg',
-    //   landscape: 'https://example.com/ad-wide.jpg',
-    //   link:      'https://example.com',
-    // },
-  ],
+  // Paste your Google Sheet "Publish to web" CSV URL here
+  sheetUrl: '',  // e.g. 'https://docs.google.com/spreadsheets/d/SHEET_ID/pub?output=csv'
 
-  // Shown when ads array is empty
+  // Fallback ad shown if the sheet is empty or unreachable
   fallback: {
     portrait:  'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80',
     landscape: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&h=360&q=80&fit=crop',
@@ -34,23 +32,41 @@ var SIDE_AD = {
 //  INTERNALS
 // ═══════════════════════════════════════════════════
 (function () {
-  var ad, tab, cdEl, cdTimer, reopenTimer, currentAd;
+  var ad, tab, cdEl, cdTimer, reopenTimer, currentAd, adList;
   var mq = window.matchMedia('(max-width:' + SIDE_AD.mobileBreak + 'px)');
 
   function isMobile() { return mq.matches; }
 
-  function pickAd() {
-    var list = SIDE_AD.ads && SIDE_AD.ads.length ? SIDE_AD.ads : null;
-    currentAd = list
-      ? list[Math.floor(Math.random() * list.length)]
-      : SIDE_AD.fallback;
+  // Parse a published Google Sheets CSV into an array of ad objects
+  function parseCSV(text) {
+    var lines = text.trim().split('\n');
+    if (lines.length < 2) return [];
+    var headers = lines[0].split(',').map(function (h) {
+      return h.trim().replace(/^"|"$/g, '').toLowerCase();
+    });
+    var ads = [];
+    for (var i = 1; i < lines.length; i++) {
+      var vals = lines[i].split(',').map(function (v) {
+        return v.trim().replace(/^"|"$/g, '');
+      });
+      var obj = {};
+      headers.forEach(function (h, j) { obj[h] = vals[j] || ''; });
+      if (obj.portrait || obj.landscape) ads.push(obj);
+    }
+    return ads;
+  }
+
+  function pickAd(list) {
+    if (list && list.length) {
+      currentAd = list[Math.floor(Math.random() * list.length)];
+    } else {
+      currentAd = SIDE_AD.fallback;
+    }
   }
 
   function applyImage() {
     if (!currentAd) return;
-    var mobile = isMobile();
-    // Prefer the matching format; fall back to whichever exists
-    var src = mobile
+    var src = isMobile()
       ? (currentAd.landscape || currentAd.portrait)
       : (currentAd.portrait  || currentAd.landscape);
     var img = ad.querySelector('img');
@@ -62,6 +78,8 @@ var SIDE_AD = {
   function show() {
     clearTimeout(reopenTimer);
     stopCountdown();
+    pickAd(adList);
+    applyImage();
     ad.classList.remove('hidden');
     tab.classList.remove('visible');
   }
@@ -89,16 +107,9 @@ var SIDE_AD = {
     cdEl.textContent = '';
   }
 
-  function init() {
-    ad   = document.getElementById('sideAd');
-    tab  = document.getElementById('sideAdTab');
-    cdEl = document.getElementById('sideAdCountdown');
-    if (!ad) return;
-
-    // Pick a random ad
-    pickAd();
-
-    // Load correct image for current screen size
+  function start(list) {
+    adList = list;
+    pickAd(list);
     applyImage();
 
     // Swap image when screen crosses the breakpoint
@@ -106,18 +117,23 @@ var SIDE_AD = {
     if (mq.addEventListener) {
       mq.addEventListener('change', onChange);
     } else {
-      mq.addListener(onChange); // Safari < 14
+      mq.addListener(onChange);
     }
 
-    // Click panel → open link
-    if (currentAd && currentAd.link) {
-      ad.style.cursor = 'pointer';
-      ad.addEventListener('click', function (e) {
-        if (e.target !== ad.querySelector('.side-ad-close')) {
-          window.open(currentAd.link, '_blank');
-        }
-      });
-    }
+    // Click → open ad link (always reads currentAd so it updates each cycle)
+    ad.style.cursor = 'pointer';
+    ad.addEventListener('click', function (e) {
+      if (e.target !== ad.querySelector('.side-ad-close') && currentAd && currentAd.link) {
+        window.open(currentAd.link, '_blank');
+      }
+    });
+  }
+
+  function init() {
+    ad   = document.getElementById('sideAd');
+    tab  = document.getElementById('sideAdTab');
+    cdEl = document.getElementById('sideAdCountdown');
+    if (!ad) return;
 
     // Close button
     ad.querySelector('.side-ad-close').addEventListener('click', function (e) {
@@ -133,6 +149,19 @@ var SIDE_AD = {
     if (burger) burger.addEventListener('click', function () {
       document.getElementById('navMenu').classList.toggle('open');
     });
+
+    // Load ads from Google Sheet, fall back gracefully
+    if (SIDE_AD.sheetUrl) {
+      fetch(SIDE_AD.sheetUrl)
+        .then(function (r) { return r.text(); })
+        .then(function (csv) {
+          var list = parseCSV(csv);
+          start(list.length ? list : null);
+        })
+        .catch(function () { start(null); });
+    } else {
+      start(null);
+    }
   }
 
   if (document.readyState === 'loading') {
