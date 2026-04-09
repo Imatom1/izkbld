@@ -78,13 +78,21 @@ var SIDE_AD = {
       'display:flex;flex-direction:column;align-items:center;justify-content:center',
       'width:100%;height:100%;padding:24px 16px;box-sizing:border-box;text-align:center',
       'background:linear-gradient(160deg,#0d0a14 0%,#110b20 60%,#0a0a0a 100%)',
-      'gap:10px;cursor:pointer',
+      'gap:8px;cursor:pointer',
     ].join(';');
     el.innerHTML = [
-      '<div style="font-size:9px;letter-spacing:3px;color:#c9a84c;text-transform:uppercase;opacity:.7">Division 01 — Technology</div>',
-      '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(18px,4vw,28px);letter-spacing:5px;color:#a78bfa;line-height:1.1">ILI<br>ENTERPRISES</div>',
+      // Ilitech logo + label
+      '<img src="images/ilitech-logo.png" alt="Ilitech" style="width:48px;height:48px;object-fit:contain;opacity:.9">',
+      '<div style="font-size:9px;letter-spacing:3px;color:#a78bfa;text-transform:uppercase">Ilitech</div>',
+      '<div style="font-size:9px;letter-spacing:2px;color:rgba(245,242,238,.35);text-transform:uppercase">Division 01 — Technology</div>',
+      // divider
+      '<div style="width:32px;height:1px;background:rgba(201,168,76,.3);margin:6px 0"></div>',
+      // Ili Enterprises logo + name
+      '<img src="images/ili-logo.png" alt="Ili Enterprises" style="width:36px;height:36px;object-fit:contain;opacity:.8">',
+      '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(16px,3.5vw,24px);letter-spacing:4px;color:#c9a84c;line-height:1.1">Ili Enterprises</div>',
       '<div style="font-size:9px;letter-spacing:2px;color:rgba(245,242,238,.35);text-transform:uppercase">Built Different. Priced Fair.</div>',
-      '<div style="width:32px;height:1px;background:rgba(201,168,76,.3);margin:4px 0"></div>',
+      // divider
+      '<div style="width:32px;height:1px;background:rgba(201,168,76,.3);margin:6px 0"></div>',
       '<div style="font-size:10px;color:rgba(245,242,238,.5);line-height:1.6;max-width:160px">Custom websites, apps &amp; digital solutions for your brand.</div>',
       '<a href="https://ilias-enterprise.netlify.app/" target="_blank" onclick="event.stopPropagation()" style="margin-top:8px;padding:8px 20px;background:#a78bfa;color:#0d0a14;font-size:9px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-weight:700;border-radius:2px">Get Your Website</a>',
     ].join('');
