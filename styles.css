@@ -228,6 +228,7 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
   border-top:1px solid rgba(167,139,250,.25);
   position:relative;
   overflow:hidden;
+  min-height:50vh;
 }
 
 /* ── ILITECH MAIN SECTION ── */
