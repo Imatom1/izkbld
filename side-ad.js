@@ -1,35 +1,63 @@
 // ═══════════════════════════════════════════════════
 //  SIDE AD CONFIG
+//  Add your ads to the array below.
+//  Each ad needs:
+//    portrait  — tall image for the desktop side panel (3:10 ratio)
+//    landscape — wide image for the mobile bottom bar (10:3 ratio)
+//    link      — URL that opens when the ad is clicked
+//
+//  A random ad is picked each page load.
+//  When the screen crosses the breakpoint the image
+//  automatically swaps to the correct format.
 // ═══════════════════════════════════════════════════
 var SIDE_AD = {
-  // Direct image URL — overrides Cloudinary if set
-  adImageUrl: '',  // e.g. 'https://your-site.com/my-ad.jpg'
+  ads: [
+    // {
+    //   portrait:  'https://example.com/ad-tall.jpg',
+    //   landscape: 'https://example.com/ad-wide.jpg',
+    //   link:      'https://example.com',
+    // },
+  ],
 
-  // URL the ad opens when clicked
-  adLink: '',  // e.g. 'https://your-site.com'
-
-  cloudinary: {
-    cloudName: '',    // e.g. 'my-cloud'
-    folder:    '',    // Cloudinary folder name — picks a random image from this folder
-    tag:       '',    // or use a tag instead of a folder (folder takes priority)
+  // Shown when ads array is empty
+  fallback: {
+    portrait:  'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80',
+    landscape: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&h=360&q=80&fit=crop',
+    link:      '',
   },
 
-  // Fallback shown until Cloudinary / adImageUrl is configured
-  fallback: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80',
-
-  // Seconds before panel auto-reopens after being closed
-  reopenAfter: 30
-
-  // Form factor is handled automatically by CSS:
-  //   Desktop (side panel) → 3:10  portrait
-  //   Mobile  (bottom bar) → 10:3  landscape  (breakpoint: 750px)
+  reopenAfter: 30,  // seconds before panel re-opens after being closed
+  mobileBreak: 750, // must match the CSS breakpoint
 };
 
 // ═══════════════════════════════════════════════════
 //  INTERNALS
 // ═══════════════════════════════════════════════════
 (function () {
-  var ad, tab, cdEl, cdTimer, reopenTimer;
+  var ad, tab, cdEl, cdTimer, reopenTimer, currentAd;
+  var mq = window.matchMedia('(max-width:' + SIDE_AD.mobileBreak + 'px)');
+
+  function isMobile() { return mq.matches; }
+
+  function pickAd() {
+    var list = SIDE_AD.ads && SIDE_AD.ads.length ? SIDE_AD.ads : null;
+    currentAd = list
+      ? list[Math.floor(Math.random() * list.length)]
+      : SIDE_AD.fallback;
+  }
+
+  function applyImage() {
+    if (!currentAd) return;
+    var mobile = isMobile();
+    // Prefer the matching format; fall back to whichever exists
+    var src = mobile
+      ? (currentAd.landscape || currentAd.portrait)
+      : (currentAd.portrait  || currentAd.landscape);
+    var img = ad.querySelector('img');
+    img.classList.remove('loaded');
+    img.src = src;
+    img.onload = function () { img.classList.add('loaded'); };
+  }
 
   function show() {
     clearTimeout(reopenTimer);
@@ -50,10 +78,7 @@ var SIDE_AD = {
     cdTimer = setInterval(function () {
       remaining--;
       cdEl.textContent = remaining + 's';
-      if (remaining <= 0) {
-        stopCountdown();
-        show();
-      }
+      if (remaining <= 0) { stopCountdown(); show(); }
     }, 1000);
     reopenTimer = setTimeout(show, secs * 1000);
   }
@@ -64,35 +89,35 @@ var SIDE_AD = {
     cdEl.textContent = '';
   }
 
-  function setImage(src) {
-    var img = ad.querySelector('img');
-    img.src = src;
-    img.onload = function () { img.classList.add('loaded'); };
-  }
-
-  function loadCloudinary() {
-    var cn = SIDE_AD.cloudinary;
-    var key = cn.folder || cn.tag;
-    if (!key) { setImage(SIDE_AD.fallback); return; }
-    var url = 'https://res.cloudinary.com/' + cn.cloudName + '/image/list/' + key + '.json';
-    fetch(url)
-      .then(function (r) { return r.json(); })
-      .then(function (data) {
-        var res = data.resources;
-        if (res && res.length) {
-          setImage(res[Math.floor(Math.random() * res.length)].secure_url);
-        } else {
-          setImage(SIDE_AD.fallback);
-        }
-      })
-      .catch(function () { setImage(SIDE_AD.fallback); });
-  }
-
   function init() {
-    ad  = document.getElementById('sideAd');
-    tab = document.getElementById('sideAdTab');
+    ad   = document.getElementById('sideAd');
+    tab  = document.getElementById('sideAdTab');
     cdEl = document.getElementById('sideAdCountdown');
     if (!ad) return;
+
+    // Pick a random ad
+    pickAd();
+
+    // Load correct image for current screen size
+    applyImage();
+
+    // Swap image when screen crosses the breakpoint
+    var onChange = function () { applyImage(); };
+    if (mq.addEventListener) {
+      mq.addEventListener('change', onChange);
+    } else {
+      mq.addListener(onChange); // Safari < 14
+    }
+
+    // Click panel → open link
+    if (currentAd && currentAd.link) {
+      ad.style.cursor = 'pointer';
+      ad.addEventListener('click', function (e) {
+        if (e.target !== ad.querySelector('.side-ad-close')) {
+          window.open(currentAd.link, '_blank');
+        }
+      });
+    }
 
     // Close button
     ad.querySelector('.side-ad-close').addEventListener('click', function (e) {
@@ -100,33 +125,14 @@ var SIDE_AD = {
       hide();
     });
 
-    // Tab reopens immediately
+    // Tab reopens panel
     tab.addEventListener('click', function () { show(); });
-
-    // Ad panel acts as a link if adLink is set
-    if (SIDE_AD.adLink) {
-      ad.style.cursor = 'pointer';
-      ad.addEventListener('click', function (e) {
-        if (e.target !== ad.querySelector('.side-ad-close')) {
-          window.open(SIDE_AD.adLink, '_blank');
-        }
-      });
-    }
 
     // Burger menu
     var burger = document.getElementById('burger');
     if (burger) burger.addEventListener('click', function () {
       document.getElementById('navMenu').classList.toggle('open');
     });
-
-    // Load image
-    if (SIDE_AD.adImageUrl) {
-      setImage(SIDE_AD.adImageUrl);
-    } else if (SIDE_AD.cloudinary.cloudName && (SIDE_AD.cloudinary.folder || SIDE_AD.cloudinary.tag)) {
-      loadCloudinary();
-    } else {
-      setImage(SIDE_AD.fallback);
-    }
   }
 
   if (document.readyState === 'loading') {
