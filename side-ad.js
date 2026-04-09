@@ -15,7 +15,7 @@
 // ═══════════════════════════════════════════════════
 var SIDE_AD = {
   // Paste your Google Sheet "Publish to web" CSV URL here
-  sheetUrl: '',  // e.g. 'https://docs.google.com/spreadsheets/d/SHEET_ID/pub?output=csv'
+  sheetUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQS0fVifDquNLroRBksn13_zYjApvPcRp6K4prnudKSEHLM7BKlt_J1qQKwH6v0883jInVaeuAL5XdP/pub?output=csv',
 
   // Fallback ad shown if the sheet is empty or unreachable
   fallback: {
