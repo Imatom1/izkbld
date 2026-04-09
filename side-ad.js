@@ -1,24 +1,28 @@
 // ═══════════════════════════════════════════════════
 //  SIDE AD CONFIG
-//  Set adImageUrl to your ad image (hosted anywhere).
-//  Or use Cloudinary: set cloudName + tag and it will
-//  pick a random image from that tag each page load.
-//  Upload / delete in Cloudinary — no code changes needed.
 // ═══════════════════════════════════════════════════
 var SIDE_AD = {
   // Direct image URL — overrides Cloudinary if set
   adImageUrl: '',  // e.g. 'https://your-site.com/my-ad.jpg'
 
+  // URL the ad opens when clicked
+  adLink: '',  // e.g. 'https://your-site.com'
+
   cloudinary: {
-    cloudName: '',   // e.g. 'my-cloud'
-    tag:       'side-ad'
+    cloudName: '',    // e.g. 'my-cloud'
+    folder:    '',    // Cloudinary folder name — picks a random image from this folder
+    tag:       '',    // or use a tag instead of a folder (folder takes priority)
   },
 
-  // Fallback shown until either of the above is configured
+  // Fallback shown until Cloudinary / adImageUrl is configured
   fallback: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80',
 
   // Seconds before panel auto-reopens after being closed
   reopenAfter: 30
+
+  // Form factor is handled automatically by CSS:
+  //   Desktop (side panel) → 3:10  portrait
+  //   Mobile  (bottom bar) → 10:3  landscape  (breakpoint: 750px)
 };
 
 // ═══════════════════════════════════════════════════
@@ -64,19 +68,13 @@ var SIDE_AD = {
     var img = ad.querySelector('img');
     img.src = src;
     img.onload = function () { img.classList.add('loaded'); };
-    // Make the whole panel a link if adLink is set
-    if (SIDE_AD.adLink) {
-      ad.addEventListener('click', function (e) {
-        if (e.target !== ad.querySelector('.side-ad-close')) {
-          window.open(SIDE_AD.adLink, '_blank');
-        }
-      });
-    }
   }
 
   function loadCloudinary() {
-    var url = 'https://res.cloudinary.com/' + SIDE_AD.cloudinary.cloudName +
-              '/image/list/' + SIDE_AD.cloudinary.tag + '.json';
+    var cn = SIDE_AD.cloudinary;
+    var key = cn.folder || cn.tag;
+    if (!key) { setImage(SIDE_AD.fallback); return; }
+    var url = 'https://res.cloudinary.com/' + cn.cloudName + '/image/list/' + key + '.json';
     fetch(url)
       .then(function (r) { return r.json(); })
       .then(function (data) {
@@ -105,6 +103,16 @@ var SIDE_AD = {
     // Tab reopens immediately
     tab.addEventListener('click', function () { show(); });
 
+    // Ad panel acts as a link if adLink is set
+    if (SIDE_AD.adLink) {
+      ad.style.cursor = 'pointer';
+      ad.addEventListener('click', function (e) {
+        if (e.target !== ad.querySelector('.side-ad-close')) {
+          window.open(SIDE_AD.adLink, '_blank');
+        }
+      });
+    }
+
     // Burger menu
     var burger = document.getElementById('burger');
     if (burger) burger.addEventListener('click', function () {
@@ -114,7 +122,7 @@ var SIDE_AD = {
     // Load image
     if (SIDE_AD.adImageUrl) {
       setImage(SIDE_AD.adImageUrl);
-    } else if (SIDE_AD.cloudinary.cloudName) {
+    } else if (SIDE_AD.cloudinary.cloudName && (SIDE_AD.cloudinary.folder || SIDE_AD.cloudinary.tag)) {
       loadCloudinary();
     } else {
       setImage(SIDE_AD.fallback);
