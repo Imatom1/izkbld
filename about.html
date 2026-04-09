@@ -65,6 +65,22 @@
   <a class="btn btn-red reveal" href="contact.html">Book Now</a>
 </section>
 
+<!-- ═══ SIDE AD PANEL ═══ -->
+<aside class="side-ad" id="sideAd">
+  <div class="side-ad-stripe"></div>
+  <button class="side-ad-close" id="sideAdClose" aria-label="Close">&#x2715;</button>
+  <div class="side-ad-inner">
+    <div class="side-ad-tag">Limited Spots</div>
+    <div class="side-ad-price">$25</div>
+    <div class="side-ad-label">Every Cut. Every Time.</div>
+    <div class="side-ad-divider"></div>
+    <p class="side-ad-copy">No hidden fees.<br>No walk-ins.<br>Book your spot now.</p>
+    <a class="btn btn-red" href="contact.html">Book Now</a>
+  </div>
+  <div class="side-ad-stripe"></div>
+</aside>
+<button class="side-ad-tab" id="sideAdTab">Book $25 Cut</button>
+
 <!-- ═══ FOOTER ═══ -->
 <footer>
   <div class="ft-inner">
@@ -85,6 +101,16 @@
   },{threshold:.08});
   document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
   document.getElementById('burger').addEventListener('click',()=>document.getElementById('navMenu').classList.toggle('open'));
+  (function(){
+    var ad=document.getElementById('sideAd');
+    var tab=document.getElementById('sideAdTab');
+    document.getElementById('sideAdClose').addEventListener('click',function(){
+      ad.classList.add('hidden');tab.classList.add('visible');
+    });
+    tab.addEventListener('click',function(){
+      ad.classList.remove('hidden');tab.classList.remove('visible');
+    });
+  })();
 </script>
 </body>
 </html>
