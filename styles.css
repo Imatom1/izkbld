@@ -102,6 +102,39 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
 .hero p{color:var(--text-2);font-size:15px;line-height:1.8;max-width:420px;margin:0 auto 36px;animation:fadeUp .6s ease both .3s}
 .hero-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;animation:fadeUp .6s ease both .4s}
+.hero-stats{
+  display:flex;align-items:center;justify-content:center;
+  margin-top:48px;padding-top:36px;
+  border-top:1px solid rgba(255,255,255,.07);
+  animation:fadeUp .6s ease both .5s;
+}
+.hero-stat{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:0 36px;
+}
+.hero-stat-num{
+  font-family:var(--display);
+  font-size:clamp(28px,4vw,44px);
+  letter-spacing:3px;line-height:1;
+  background:linear-gradient(90deg,var(--red),var(--blue));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hero-stat-label{
+  font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-3);
+}
+.hero-stat-div{width:1px;height:44px;background:rgba(255,255,255,.1)}
+.hero-badges{
+  display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+  margin-top:20px;
+  animation:fadeUp .6s ease both .6s;
+}
+.hero-badge{
+  font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-3);
+  border:1px solid rgba(255,255,255,.1);
+  padding:6px 14px;
+}
 
 /* ═══ GALLERY ═══ */
 .gallery{padding:100px 48px;background:var(--bg-1)}
