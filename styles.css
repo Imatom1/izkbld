@@ -210,57 +210,104 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
 .ft-links a:hover{color:var(--text)}
 .ft-copy{font-size:10px;color:var(--text-3);letter-spacing:1px;text-transform:uppercase;width:100%;text-align:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
 
-/* ═══ ILI-TECH AD BANNER ═══ */
+/* ═══ ILI ENTERPRISES BANNER ═══ */
+:root{
+  --ili-gold:#c9a84c;
+  --ili-gold-light:#e8c97a;
+  --ili-gold-dim:rgba(201,168,76,.18);
+  --ili-purple:#a78bfa;
+  --ili-navy:#60a5fa;
+  --ili-emerald:#34d399;
+}
 .ili-banner{
-  padding:36px 48px;
-  background:var(--bg-2);
-  border-top:1px solid var(--border);
-  border-bottom:1px solid var(--border);
+  padding:44px 48px;
+  background:#0a0a0a;
+  border-top:1px solid var(--ili-gold-dim);
   position:relative;
   overflow:hidden;
 }
 .ili-banner::before{
   content:'';position:absolute;inset:0;
-  background:repeating-linear-gradient(135deg,transparent,transparent 60px,rgba(255,255,255,.012) 60px,rgba(255,255,255,.012) 61px);
+  background-image:
+    linear-gradient(rgba(201,168,76,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(201,168,76,.03) 1px,transparent 1px);
+  background-size:60px 60px;
   pointer-events:none;
+}
+.ili-banner::after{
+  content:'ILI ENTERPRISES';
+  position:absolute;
+  right:-20px;top:50%;
+  transform:translateY(-50%);
+  font-family:var(--display);
+  font-size:clamp(60px,10vw,120px);
+  letter-spacing:8px;
+  color:rgba(201,168,76,.04);
+  pointer-events:none;
+  white-space:nowrap;
+  line-height:1;
 }
 .ili-inner{
   max-width:1100px;margin:0 auto;
   display:flex;align-items:center;justify-content:space-between;
-  gap:24px;flex-wrap:wrap;
+  gap:32px;flex-wrap:wrap;
   position:relative;z-index:1;
 }
-.ili-left{display:flex;flex-direction:column;gap:6px}
-.ili-label{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;color:var(--text-3)}
-.ili-name{
-  font-family:var(--display);font-size:clamp(22px,3vw,34px);letter-spacing:5px;text-transform:uppercase;
-  background:linear-gradient(90deg,var(--red),var(--blue));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+.ili-left{display:flex;flex-direction:row;align-items:center;gap:20px}
+.ili-logo{width:64px;height:64px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 16px rgba(201,168,76,.3))}
+.ili-label{
+  font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(201,168,76,.5);
+  display:flex;align-items:center;gap:10px;
 }
-.ili-tagline{font-size:12px;color:var(--text-2);letter-spacing:.5px;margin-top:2px}
+.ili-label::before{content:'';width:20px;height:1px;background:var(--ili-gold);opacity:.4}
+.ili-name{
+  font-family:var(--display);
+  font-size:clamp(26px,3.5vw,40px);
+  letter-spacing:6px;text-transform:uppercase;
+  color:var(--ili-gold);
+  line-height:1;
+}
+.ili-tagline{font-size:12px;color:rgba(245,242,238,.4);letter-spacing:.5px;margin-top:2px}
+.ili-divisions{
+  display:flex;gap:0;
+  margin-top:12px;
+}
+.ili-div-tag{
+  font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  padding:4px 12px;border:1px solid;
+}
+.ili-div-tag.tech  {color:var(--ili-purple);border-color:rgba(167,139,250,.25)}
+.ili-div-tag.teach {color:var(--ili-navy);  border-color:rgba(96,165,250,.25)}
+.ili-div-tag.trade {color:var(--ili-emerald);border-color:rgba(52,211,153,.25)}
 .ili-right{
-  display:flex;align-items:center;gap:32px;flex-wrap:wrap;
+  display:flex;align-items:center;gap:28px;flex-wrap:wrap;
 }
 .ili-stat{text-align:center}
-.ili-stat strong{display:block;font-family:var(--display);font-size:22px;letter-spacing:2px;
-  background:linear-gradient(90deg,var(--red),var(--blue));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.ili-stat span{font-size:9px;color:var(--text-3);letter-spacing:2px;text-transform:uppercase;font-weight:600}
-.ili-divider{width:1px;height:40px;background:var(--border)}
-.ili-cta{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:var(--blue);border-bottom:1px solid var(--blue-dim);padding-bottom:2px;
-  transition:color .2s,border-color .2s}
-.ili-cta:hover{color:var(--text);border-color:var(--text-3)}
+.ili-stat strong{display:block;font-family:var(--display);font-size:24px;letter-spacing:2px;color:var(--ili-gold)}
+.ili-stat span{font-size:9px;color:rgba(136,136,136,.7);letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-top:2px;display:block}
+.ili-divider{width:1px;height:44px;background:var(--ili-gold-dim)}
+.ili-cta{
+  display:inline-block;
+  padding:12px 28px;
+  background:var(--ili-gold);
+  color:#0a0a0a;
+  font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  font-family:var(--body);
+  transition:background .2s,transform .2s;
+}
+.ili-cta:hover{background:var(--ili-gold-light);transform:translateY(-2px)}
 
-@media(max-width:768px){
-  .ili-banner{padding:28px 28px}
+@media(max-width:900px){
+  .ili-banner{padding:36px 28px}
   .ili-right{gap:20px}
   .ili-divider{display:none}
 }
-@media(max-width:480px){
-  .ili-banner{padding:24px 20px}
+@media(max-width:560px){
+  .ili-banner{padding:28px 20px}
   .ili-inner{flex-direction:column;align-items:flex-start}
-  .ili-right{gap:24px}
+  .ili-right{flex-wrap:wrap;gap:20px}
+  .ili-divisions{flex-wrap:wrap;gap:4px}
 }
 
 /* ═══ ANIMATIONS ═══ */
