@@ -19,9 +19,9 @@ var SIDE_AD = {
 
   // Fallback ad shown if the sheet is empty or unreachable
   fallback: {
-    portrait:  'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&q=80',
-    landscape: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1200&h=360&q=80&fit=crop',
-    link:      '',
+    portrait:  '',
+    landscape: '',
+    link:      'https://ilias-enterprise.netlify.app/',
   },
 
   reopenAfter: 30,  // seconds before panel re-opens after being closed
@@ -67,21 +67,56 @@ var SIDE_AD = {
     }
   }
 
+  function showIliFallback() {
+    var img = ad.querySelector('img');
+    img.style.display = 'none';
+    var existing = ad.querySelector('.ili-ad-fallback');
+    if (existing) { existing.style.display = 'flex'; return; }
+    var el = document.createElement('div');
+    el.className = 'ili-ad-fallback';
+    el.style.cssText = [
+      'display:flex;flex-direction:column;align-items:center;justify-content:center',
+      'width:100%;height:100%;padding:24px 16px;box-sizing:border-box;text-align:center',
+      'background:linear-gradient(160deg,#0d0a14 0%,#110b20 60%,#0a0a0a 100%)',
+      'gap:10px;cursor:pointer',
+    ].join(';');
+    el.innerHTML = [
+      '<div style="font-size:9px;letter-spacing:3px;color:#c9a84c;text-transform:uppercase;opacity:.7">Division 01 — Technology</div>',
+      '<div style="font-family:\'Bebas Neue\',sans-serif;font-size:clamp(18px,4vw,28px);letter-spacing:5px;color:#a78bfa;line-height:1.1">ILI<br>ENTERPRISES</div>',
+      '<div style="font-size:9px;letter-spacing:2px;color:rgba(245,242,238,.35);text-transform:uppercase">Built Different. Priced Fair.</div>',
+      '<div style="width:32px;height:1px;background:rgba(201,168,76,.3);margin:4px 0"></div>',
+      '<div style="font-size:10px;color:rgba(245,242,238,.5);line-height:1.6;max-width:160px">Custom websites, apps &amp; digital solutions for your brand.</div>',
+      '<a href="https://ilias-enterprise.netlify.app/" target="_blank" onclick="event.stopPropagation()" style="margin-top:8px;padding:8px 20px;background:#a78bfa;color:#0d0a14;font-size:9px;letter-spacing:2px;text-transform:uppercase;text-decoration:none;font-weight:700;border-radius:2px">Get Your Website</a>',
+    ].join('');
+    ad.insertBefore(el, ad.querySelector('.side-ad-close'));
+  }
+
+  function hideIliFallback() {
+    var img = ad.querySelector('img');
+    img.style.display = '';
+    var el = ad.querySelector('.ili-ad-fallback');
+    if (el) el.style.display = 'none';
+  }
+
   function applyImage() {
     if (!currentAd) return;
     var src = isMobile()
       ? (currentAd.landscape || currentAd.portrait)
       : (currentAd.portrait  || currentAd.landscape);
+    if (!src) { showIliFallback(); return; }
+    hideIliFallback();
     var img = ad.querySelector('img');
     img.classList.remove('loaded');
     img.src = src;
     img.onload  = function () { img.classList.add('loaded'); };
     img.onerror = function () {
-      // Bad URL — try the other format, then give up
-      var fallback = isMobile()
-        ? (currentAd.portrait || SIDE_AD.fallback.landscape)
-        : (currentAd.landscape || SIDE_AD.fallback.portrait);
-      if (img.src !== fallback) { img.src = fallback; } else { img.classList.add('loaded'); }
+      // Try the other format before giving up
+      var other = isMobile() ? currentAd.portrait : currentAd.landscape;
+      if (other && img.src !== other) {
+        img.src = other;
+      } else {
+        showIliFallback();
+      }
     };
   }
 
