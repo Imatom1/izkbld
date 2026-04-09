@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact & Booking — Izak Blendss</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a class="logo" href="index.html">IZAK<em>BLENDSS</em></a>
+  <ul class="nav-mid" id="navMenu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="act">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a class="btn btn-blue" href="contact.html">Book Now</a>
+  </div>
+</nav>
+
+<!-- ═══ CONTACT ═══ -->
+<div class="contact-page">
+  <div class="sec-tag bl reveal">Get In Touch</div>
+  <h1 class="reveal">Contact & Booking</h1>
+  <p class="reveal">Ready for a fresh cut? Reach out to book an appointment. Every haircut is $25 — no surprises.</p>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <div class="info-item"><h4>Location</h4><p>123 Main Street<br>Turlock, CA 95380</p></div>
+      <div class="info-item"><h4>Phone</h4><a href="tel:+12095550199">(209) 555-0199</a></div>
+      <div class="info-item"><h4>Email</h4><a href="mailto:info@izakblendss.com">info@izakblendss.com</a></div>
+      <div class="info-item"><h4>Hours</h4><p>Mon – Fri: 9am – 7pm<br>Saturday: 8am – 5pm<br>Sunday: Closed</p></div>
+      <div class="info-item"><h4>Pricing</h4><p>All haircuts — $25<br>No Walk in's</p></div>
+      <div class="info-item"><h4>Follow</h4><a href="https://instagram.com/izak_blendss" target="_blank">@izakblendss on Instagram</a></div>
+    </div>
+    <div class="contact-form reveal">
+      <input type="text" placeholder="Your Name" required>
+      <input type="tel" placeholder="Phone Number" required>
+      <input type="email" placeholder="Email Address">
+      <select><option value="" disabled selected>Preferred Day</option><option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option><option>Saturday</option></select>
+      <select><option value="" disabled selected>Preferred Time</option><option>Morning (9am – 12pm)</option><option>Afternoon (12pm – 4pm)</option><option>Evening (4pm – 7pm)</option></select>
+      <textarea placeholder="Anything else? (optional)"></textarea>
+      <button type="button" class="btn btn-red" style="width:100%">Request Appointment</button>
+      <p class="form-note">This sends a booking request. Izak will confirm via text or call.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="ft-inner">
+    <a class="logo" href="index.html">IZAK<em>BLENDSS</em></a>
+    <div class="ft-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://instagram.com/izak_blendss" target="_blank">Instagram</a>
+    </div>
+    <div class="ft-copy">&copy; 2026 Izak Blendss. All haircuts $25. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('vis'),i*60);obs.unobserve(e.target)}});
+  },{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  document.getElementById('burger').addEventListener('click',()=>document.getElementById('navMenu').classList.toggle('open'));
+</script>
+</body>
+</html>

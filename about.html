@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Izak Blendss</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a class="logo" href="index.html">IZAK<em>BLENDSS</em></a>
+  <ul class="nav-mid" id="navMenu">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="act">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="burger" id="burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    <a class="btn btn-blue" href="contact.html">Book Now</a>
+  </div>
+</nav>
+
+<!-- ═══ ABOUT HERO ═══ -->
+<div class="about-hero">
+  <div class="about-img reveal">
+    <img src="https://images.unsplash.com/photo-1521490683712-35a1cb235d1c?w=800&q=80" alt=" the barber" loading="lazy">
+    <div class="ph"><b>Replace — About Portrait</b> standing in the shop, confident pose. Vertical or square, 800px+ wide.</div>
+  </div>
+  <div class="about-text">
+    <div class="sec-tag red reveal">About</div>
+    <h1 class="reveal">The Barber</h1>
+    <p class="reveal">Izak Blendss isn't just a name — it's a standard. Built on the belief that every haircut tells a story, this shop brings passion, precision, and personality to every client.</p>
+    <p class="reveal">With years behind the chair mastering fades, textures, and classic styles, Izak has built a loyal following of clients who trust his eye and his blade. Every haircut is $25 — simple, honest pricing.</p>
+    <div class="stat-row reveal">
+      <div class="stat"><h4>2K+</h4><span>Clients</span></div>
+      <div class="stat"><h4>8+</h4><span>Years</span></div>
+      <div class="stat"><h4>$25</h4><span>Every Cut</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="stripe"></div>
+
+<div class="about-values">
+  <div class="sec-head reveal" style="max-width:1100px;margin:0 auto 40px">
+    <div class="sec-tag bl">Values</div>
+    <h2 class="sec-title">What We Stand For</h2>
+  </div>
+  <div class="values-grid">
+    <div class="val-card reveal"><div class="val-num">01</div><h3>Precision</h3><p>Every line, every fade, every blend is intentional. No rushing, no shortcuts — just clean, precise work every time.</p></div>
+    <div class="val-card reveal"><div class="val-num">02</div><h3>Honesty</h3><p>$25 a cut. No hidden fees, no upsells, no games. You know exactly what you're paying before you sit down.</p></div>
+    <div class="val-card reveal"><div class="val-num">03</div><h3>Respect</h3><p>Your time matters. Show up, sit down, and leave looking your best. We respect the chair and the people in it.</p></div>
+  </div>
+</div>
+
+<div class="stripe"></div>
+
+<section class="cta">
+  <div class="glow-r"></div><div class="glow-b"></div>
+  <h2 class="reveal">Ready for a Fresh Cut?</h2>
+  <p class="reveal">Every haircut is $25.</p>
+  <a class="btn btn-red reveal" href="contact.html">Book Now</a>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="ft-inner">
+    <a class="logo" href="index.html">IZAK<em>BLENDSS</em></a>
+    <div class="ft-links">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="https://instagram.com/izak_blendss" target="_blank">Instagram</a>
+    </div>
+    <div class="ft-copy">&copy; 2026 Izak Blendss. All haircuts $25. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  const obs=new IntersectionObserver((entries)=>{
+    entries.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>e.target.classList.add('vis'),i*60);obs.unobserve(e.target)}});
+  },{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  document.getElementById('burger').addEventListener('click',()=>document.getElementById('navMenu').classList.toggle('open'));
+</script>
+</body>
+</html>
