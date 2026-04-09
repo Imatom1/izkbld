@@ -528,3 +528,29 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
   letter-spacing:0;
 }
 .side-ad-tab.visible{opacity:1;pointer-events:all}
+
+@media(max-width:600px){
+  .side-ad{
+    right:auto;left:0;top:auto;bottom:0;
+    transform:none;
+    width:100vw;height:auto;
+    aspect-ratio:10/3;
+    max-height:none;
+    box-shadow:0 -6px 32px rgba(0,0,0,.7);
+    transition:bottom .45s cubic-bezier(.4,0,.2,1);
+  }
+  .side-ad.hidden{
+    right:auto;
+    bottom:calc(100vw * -0.3);
+  }
+  .side-ad-tab{
+    right:auto;top:auto;
+    left:50%;bottom:0;
+    transform:translateX(-50%);
+    writing-mode:horizontal-tb;
+    border-left:none;border-top:2px solid rgba(255,255,255,.15);
+    padding:8px 24px;
+    flex-direction:row;gap:8px;
+  }
+  .side-ad-tab .tab-cd{display:inline;margin-top:0;margin-left:4px}
+}
