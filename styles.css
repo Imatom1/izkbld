@@ -421,8 +421,9 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
   right:0;
   top:50%;
   transform:translateY(-50%);
-  height:75vh;
-  aspect-ratio:2/8;
+  height:50vh;
+  aspect-ratio:3/10;
+  max-height:50vh;
   z-index:150;
   overflow:hidden;
   box-shadow:-6px 0 32px rgba(0,0,0,.7);
@@ -430,7 +431,7 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
   cursor:pointer;
 }
 .side-ad.hidden{
-  right:calc(75vh * -0.25);
+  right:calc(50vh * -0.3);
 }
 .side-ad img{
   display:block;
