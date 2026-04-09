@@ -417,7 +417,7 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
 .side-ad{
   position:fixed;
   right:0;
-  top:calc(64px + (100vh - 64px) / 2);
+  top:50%;
   transform:translateY(-50%);
   height:50vh;
   aspect-ratio:3/10;
@@ -459,7 +459,7 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
 .side-ad-tab{
   position:fixed;
   right:0;
-  top:calc(64px + (100vh - 64px) / 2);
+  top:50%;
   transform:translateY(-50%);
   z-index:149;
   background:#111;
