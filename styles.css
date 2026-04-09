@@ -233,7 +233,7 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
 /* ── ILITECH MAIN SECTION ── */
 .ili-tech-main{
   flex:1;
-  padding:52px 48px;
+  padding:26px 48px;
   background:linear-gradient(135deg,#0d0a14 0%,#110b20 60%,#17102b 100%);
   position:relative;
   overflow:hidden;
@@ -241,7 +241,7 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
   flex-direction:column;
   align-items:center;
   text-align:center;
-  gap:14px;
+  gap:8px;
 }
 .ili-tech-main::before{
   content:'';position:absolute;inset:0;
@@ -263,9 +263,9 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
   white-space:nowrap;line-height:1;
 }
 .ili-tech-logo{
-  width:56px;height:56px;
+  width:32px;height:32px;
   object-fit:contain;
-  filter:drop-shadow(0 0 20px rgba(167,139,250,.5));
+  filter:drop-shadow(0 0 12px rgba(167,139,250,.5));
   position:relative;z-index:1;
 }
 .ili-tech-label{
@@ -277,8 +277,8 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
 .ili-tech-label::before{content:'';width:16px;height:1px;background:var(--ili-purple);opacity:.5}
 .ili-tech-heading{
   font-family:var(--display);
-  font-size:clamp(40px,6vw,72px);
-  letter-spacing:8px;color:#a78bfa;line-height:1;
+  font-size:clamp(20px,3vw,36px);
+  letter-spacing:6px;color:#a78bfa;line-height:1;
   position:relative;z-index:1;
 }
 .ili-tech-sub{
@@ -287,14 +287,14 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
   position:relative;z-index:1;
 }
 .ili-tech-desc{
-  font-size:14px;color:rgba(245,242,238,.4);
-  max-width:480px;line-height:1.8;
+  font-size:12px;color:rgba(245,242,238,.4);
+  max-width:480px;line-height:1.7;
   position:relative;z-index:1;
   margin-top:4px;
 }
 .ili-tech-btn{
   display:inline-block;
-  padding:14px 38px;
+  padding:9px 24px;
   background:#a78bfa;
   color:#0d0a14;
   font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
