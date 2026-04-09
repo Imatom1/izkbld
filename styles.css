@@ -216,7 +216,7 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
   --ili-gold-light:#e8c97a;
   --ili-gold-dim:rgba(201,168,76,.18);
   --ili-purple:#a78bfa;
-  --ili-navy:#a78bfa;
+  --ili-navy:#60a5fa;
   --ili-emerald:#34d399;
 }
 .ili-banner{
@@ -257,27 +257,39 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
 .ili-logo{width:64px;height:64px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 16px rgba(201,168,76,.3))}
 .ili-name{font-family:var(--display);font-size:clamp(30px,4vw,46px);letter-spacing:6px;text-transform:uppercase;color:var(--ili-gold);line-height:1}
 .ili-tagline{font-size:13px;color:rgba(245,242,238,.4);letter-spacing:.5px;margin-top:4px}
+/* Ilitech featured column */
 .ili-tech-col{
-  border-left:1px solid rgba(96,165,250,.2);
+  border-left:1px solid rgba(167,139,250,.2);
   padding-left:32px;
-  display:flex;flex-direction:column;gap:12px;
-  flex:1;
+  display:flex;flex-direction:column;gap:14px;
+  flex:1.4;
+  background:rgba(124,58,237,.04);
+  padding:24px 32px;
+  position:relative;
+}
+.ili-tech-col::before{
+  content:'';position:absolute;top:0;left:0;
+  width:3px;height:100%;
+  background:linear-gradient(to bottom,#a78bfa,rgba(167,139,250,.1));
 }
 .ili-tech-heading{
   font-family:var(--display);
-  font-size:clamp(20px,2.5vw,30px);
-  letter-spacing:4px;
+  font-size:clamp(22px,2.8vw,34px);
+  letter-spacing:5px;
   color:#a78bfa;
-  display:flex;align-items:center;gap:10px;
+  display:flex;align-items:center;gap:12px;
 }
-.ili-tech-heading::before{content:'';width:16px;height:2px;background:#a78bfa;flex-shrink:0}
+.ili-tech-heading::before{content:'';width:20px;height:2px;background:#a78bfa;flex-shrink:0}
+.ili-tech-title-row{display:flex;align-items:center;gap:14px}
+.ili-tech-logo{width:48px;height:48px;object-fit:contain;flex-shrink:0;filter:drop-shadow(0 0 12px rgba(167,139,250,.4))}
+.ili-tech-sub{font-size:11px;color:rgba(167,139,250,.5);letter-spacing:3px;text-transform:uppercase;margin-top:-8px}
 .ili-tech-bullets{
-  display:flex;flex-direction:column;gap:7px;
+  display:flex;flex-direction:column;gap:8px;
   list-style:none;
 }
 .ili-tech-bullets li{
   font-size:13px;
-  color:rgba(245,242,238,.55);
+  color:rgba(245,242,238,.6);
   display:flex;align-items:center;gap:10px;
   line-height:1.4;
 }
@@ -287,7 +299,7 @@ footer::after{content:'';position:absolute;top:-1px;right:0;width:80px;height:1p
   background:#a78bfa;flex-shrink:0;
 }
 @media(max-width:900px){
-  .ili-tech-col{border-left:none;padding-left:0;border-top:1px solid rgba(96,165,250,.2);padding-top:20px}
+  .ili-tech-col{border-left:none;padding:20px;margin-top:8px}
   .ili-inner{flex-direction:column;align-items:flex-start}
 }
 .ili-label{
