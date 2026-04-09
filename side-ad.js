@@ -39,14 +39,17 @@ var SIDE_AD = {
 
   // Parse a published Google Sheets CSV into an array of ad objects
   function parseCSV(text) {
-    var lines = text.trim().split('\n');
+    // Google Sheets uses \r\n line endings — handle both
+    var lines = text.trim().split(/\r?\n/);
     if (lines.length < 2) return [];
     var headers = lines[0].split(',').map(function (h) {
       return h.trim().replace(/^"|"$/g, '').toLowerCase();
     });
     var ads = [];
     for (var i = 1; i < lines.length; i++) {
-      var vals = lines[i].split(',').map(function (v) {
+      var line = lines[i].trim();
+      if (!line) continue; // skip empty lines
+      var vals = line.split(',').map(function (v) {
         return v.trim().replace(/^"|"$/g, '');
       });
       var obj = {};
@@ -72,7 +75,14 @@ var SIDE_AD = {
     var img = ad.querySelector('img');
     img.classList.remove('loaded');
     img.src = src;
-    img.onload = function () { img.classList.add('loaded'); };
+    img.onload  = function () { img.classList.add('loaded'); };
+    img.onerror = function () {
+      // Bad URL — try the other format, then give up
+      var fallback = isMobile()
+        ? (currentAd.portrait || SIDE_AD.fallback.landscape)
+        : (currentAd.landscape || SIDE_AD.fallback.portrait);
+      if (img.src !== fallback) { img.src = fallback; } else { img.classList.add('loaded'); }
+    };
   }
 
   function show() {
