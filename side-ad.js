@@ -1,45 +1,21 @@
-// ═══════════════════════════════════════════════════
-//  SIDE AD CONFIG
-//
-//  HOW TO SET UP YOUR GOOGLE SHEET:
-//  1. Create a sheet with these 3 column headers in row 1:
-//       portrait  |  landscape  |  link
-//  2. Add one ad per row:
-//       portrait  = tall image URL  (3:10, for desktop side panel)
-//       landscape = wide image URL  (10:3, for mobile bottom bar)
-//       link      = website URL to open when ad is clicked
-//  3. File → Share → Publish to web → Sheet1 → CSV → Publish
-//  4. Paste the published CSV URL below as sheetUrl
-//
-//  To add/remove/change ads: just edit the sheet. No code changes needed.
-// ═══════════════════════════════════════════════════
 var SIDE_AD = {
-  // Paste your Google Sheet "Publish to web" CSV URL here
   sheetUrl: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQS0fVifDquNLroRBksn13_zYjApvPcRp6K4prnudKSEHLM7BKlt_J1qQKwH6v0883jInVaeuAL5XdP/pub?output=csv',
-
-  // Fallback ad shown if the sheet is empty or unreachable
   fallback: {
     portrait:  '',
     landscape: '',
     link:      'https://ilias-enterprise.netlify.app/',
   },
-
-  reopenAfter: 30,  // seconds before panel re-opens after being closed
-  mobileBreak: 750, // must match the CSS breakpoint
+  reopenAfter: 30,
+  mobileBreak: 750,
 };
 
-// ═══════════════════════════════════════════════════
-//  INTERNALS
-// ═══════════════════════════════════════════════════
 (function () {
   var ad, tab, cdEl, cdTimer, reopenTimer, currentAd, adList;
   var mq = window.matchMedia('(max-width:' + SIDE_AD.mobileBreak + 'px)');
 
   function isMobile() { return mq.matches; }
 
-  // Parse a published Google Sheets CSV into an array of ad objects
   function parseCSV(text) {
-    // Google Sheets uses \r\n line endings — handle both
     var lines = text.trim().split(/\r?\n/);
     if (lines.length < 2) return [];
     var headers = lines[0].split(',').map(function (h) {
